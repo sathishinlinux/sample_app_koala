@@ -19,7 +19,7 @@ group :assets do
 
   gem 'uglifier', '>= 1.0.3'
 end
-
+gem 'pg'
 gem 'jquery-rails'
 gem 'koala'
 # To use ActiveModel has_secure_password
