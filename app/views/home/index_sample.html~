@@ -1,0 +1,177 @@
+require 'rubygems'
+ require 'koala'
+  def index
+   @oauth = Koala::Facebook::OAuth.new(395715373788921, "8e63cfe50d07988ade86bc603da4b068","http://localhost:3000/")
+   @oauth_code =   @oauth.get_app_access_token #(:permissions => "stream_publish") # @oauth.url_for_oauth_code
+ # @oauth_code = @oauth_code.to_a
+   @graph = Koala::Facebook::GraphAPI.new(@oauth_code)
+ #          		/* Page   */
+   @graph_info =  @graph.get_object("170880032923050")
+   @graph_info_feed = @graph.get_connections("170880032923050", "feed")
+   @graph_likes = @graph.get_connections("170880032923050", "likes")
+   @graph_photos = @graph.get_connections("170880032923050", "photos")
+  # render :text => @graph_photos
+=begin
+   @graph_info = @graph.get_object("100001548409455")
+   @graph_wall = @graph.get_connections("100001548409455","feed")
+   @graph_friends = @graph.get_connections("100001548409455","friends")
+   #@graph_friends
+
+
+#render :text =>   @graph_wall.first(4)
+=end
+  end
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Ziqqu - The social music experiment</title>
+ <%= stylesheet_link_tag    "application", "jquery-ui",:media => "all" %>
+  <%= javascript_include_tag "application" ,"jquery.min","jquery-ui.min" %>
+<script type="text/javascript">
+
+$(document).ready(function(){
+// alert('hai');
+   $('#facebook_info').dialog({
+      			autoOpen: false,
+				width : 450,
+				height : 700      
+
+
+      });
+  $('.facebook_button').click(function(){
+  	$('#facebook_info').dialog('open');
+
+  	});
+
+});
+
+</script>
+<body>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tbody><tr>
+    <td><table border="0" cellpadding="0" cellspacing="0" width="1010" align="center">
+      <tbody><tr>
+        <td><img src="/assets/home.jpg" usemap="#Map" border="0" width="1010"></td>
+      </tr>
+    </tbody></table></td>
+  </tr>
+</tbody></table>
+
+<map name="Map" id="Map"><area shape="rect" coords="743,103,776,137" href="#" class ="facebook_button"><area shape="rect" coords="796,103,830,137" href="#" class = "twitter_button"></map>
+	<div style = display:none title = "<%= @graph_info['name'] %>" id ="facebook_info"> 
+		 <%=link_to image_tag(@graph_info['picture']),"http://www.facebook.com/#{@graph_info['link']}" %><br>
+		<%= link_to "#{@graph_info['name']}","http://www.facebook.com/#{@graph_info['link']}" %><br>
+
+		 Like:<%= @graph_info['likes']%><br>
+		 Website:<%= link_to "#{@graph_info['website']}","http://#{@graph_info['website']}" %><br>
+		<h4> Mission:</h4><%= @graph_info['mission'] %><br>
+		<h4> Description:</h4><%= @graph_info['description'] %><br>
+		<h4> About:</h4><%= @graph_info['about'] %><br>  
+
+         <div id = "facebook_wall"  style = "width:400px; font:12px tahoma,verdana;" >
+		<h4>Ziqqu Wall </h4>
+		<%@graph_info_feed.first(10).each do|graph_wall| %>
+			<%= graph_wall['story']%> <br>
+			<%= graph_wall['description']%> <br>
+			comments<%= graph_wall['comments']['count']%> <br>
+		<%end%>
+	</div>
+	<div id = "photos">
+	<h4> Ziqqu Photos</h4>
+		<%@graph_photos.first(2).each do|graph_photo| %>
+			<%= image_tag(graph_photo['picture'])%> 		
+		<%end%>
+ 	
+	</div>
+	<div id="likes">
+		<h4>Ziqqu Likes</h4><br>
+         	<%@graph_likes.first(10).each do |friend|%>
+    			  <%= image_tag (@graph.get_picture(friend['id']))%> 
+    		<%end%>
+  	</div> 
+       
+</div>
+
+</body>
+</html>
+
+
+<!-- Faebook Profile and Friends List
+<a href="#" id = "dialog">facebook</div>
+<div style = display:none title = "<%= @graph_info['name'] %>" id ="facebook_info">
+  Facebook_id:<%= @graph_info['id'] %><br>
+  Name:<%= @graph_info['name'] %><br>
+  Profile Picture: <br>
+   <%= image_tag(@graph.get_picture(@graph_info['id'])) %> <br>
+  Friends List : <br>
+  <%@graph_friends.first(20).each do |friend|%>
+      <%= image_tag (@graph.get_picture(friend['id']))%> 
+    <%end%>
+  
+</div>  -->
+
+
+<!-- <h1> Facebook Fanpage</h1>
+ 
+ Facebook_id:<%= @graph_info['id'] %><br>
+ Name:<%= @graph_info['name'] %><br>
+ Picture:<%= image_tag(@graph_info['picture']) %><br>
+ Link:<%= link_to "#{@graph_info['link']}" , @graph_info['link']  %><br>
+ Likes:<%= @graph_info['likes'] %><br>
+ Category:<%= @graph_info['category'] %><br>
+ Website:<%= link_to "#{@graph_info['website']}",@graph_info['website'] %><br>
+ Founded:<%= @graph_info['founded'] %>
+ Mission:<%= @graph_info['mission'] %><br>
+ Description:<%= @graph_info['description'] %><br>
+ About:<%= @graph_info['about'] %><br>  -->
+
+
+
+<!--     Wall post     
+
+
+<%# link_to "#{graph_wall['link']}" , graph_wall['link']%> <br>
+<%# graph_wall['name']%> <br>
+<%# link_to "#{graph_wall['link']}" , graph_wall['link']%> <br>
+<%# graph_wall['name']%> <br>
+
+
+<%= graph_wall['story']%> <br>
+<%= graph_wall['story_tag']%> <br>
+
+
+
+
+
+
+
+  -->
+
+
+
+<div style = display:none title = "<%= @graph_info['name'] %>" id ="facebook_info"> 
+ <!-- Facebook_id:<%= @graph_info['id'] %><br> -->
+ <div id="profile_picture" style = "width:400px; font:12px tahoma,verdana; background-color:#ff0000">
+  <%= image_tag(@graph.get_picture(@graph_info['id'])) %><%= @graph_info['name'] %>
+</div><br>
+<div id = "facebook_wall">
+<h1>Facebook Wall </h1>
+<%@graph_wall.first(10).each do|graph_wall| %>
+<%= graph_wall['story']%> <br>
+<%= graph_wall['description']%> <br>
+comments<%= graph_wall['comments']['count']%> <br>
+<%end%>
+</div>
+<div id="Friends">
+ <h1> Friends List : </h1><br>
+  <%@graph_friends.first(20).each do |friend|%>
+      <%= image_tag (@graph.get_picture(friend['id']))%> 
+    <%end%>
+  
+</div>
+

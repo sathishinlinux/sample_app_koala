@@ -1,0 +1,10 @@
+<h1>Auth#callback</h1>
+<p>Find me in app/views/auth/callback.html.erb</p>
+
+Looping through your statuses:<br />
+<ul>
+
+<% @graph_data.each do |status| %>
+<%= status["message"] %> (<i><%=status["updated_time"]%></i>)<hr>
+<% end %>
+</ul>

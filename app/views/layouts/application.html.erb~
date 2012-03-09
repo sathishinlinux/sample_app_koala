@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SampleAppKoalo</title>
+  <%= stylesheet_link_tag    "application", "jquery-ui",:media => "all" %>
+  <%= javascript_include_tag "application" ,"jquery.min","jquery-ui.min" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>

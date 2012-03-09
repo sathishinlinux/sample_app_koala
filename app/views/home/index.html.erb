@@ -1,0 +1,120 @@
+<title>Ziqqu - The social music experiment</title>
+ <%= stylesheet_link_tag    "application", "jquery-ui",:media => "all" %>
+  <%= javascript_include_tag "application" ,"jquery.min","jquery-ui.min" %>
+
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css">
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/jquery-ui.min.js"></script>
+
+	<script>(function(d, s, id) {
+				  var js, fjs = d.getElementsByTagName(s)[0];
+				  if (d.getElementById(id)) return;
+				  js = d.createElement(s); js.id = id;
+				  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=395715373788921";
+				  fjs.parentNode.insertBefore(js, fjs);
+					}(document, 'script', 'facebook-jssdk'));
+			</script>
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+// alert('hai');
+   $('#facebook_info').dialog({
+      			autoOpen: false,
+				width : 460,
+				height : 500      
+
+
+      });
+    $('#facebook_wall').scroll();
+    $('.facebook_button').click(function(){
+		$('#facebook_info').dialog('open');
+	
+      });
+
+});
+
+</script>
+<body>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tbody><tr>
+    <td><table border="0" cellpadding="0" cellspacing="0" width="1010" align="center">
+      <tbody><tr>
+        <td><img src="/assets/home.jpg" usemap="#Map" border="0" width="1010"></td>
+      </tr>
+    </tbody></table></td>
+  </tr>
+</tbody></table>
+
+<map name="Map" id="Map"><area shape="rect" coords="743,103,776,137" href="#" class ="facebook_button"><area shape="rect" coords="796,103,830,137" href="#" class = "twitter_button"></map>
+	<div  title = "<%= @graph_info['name'] %>" id ="facebook_info"> 
+		
+		<div id= "picture" style = "width:400px; height 50px; font:8px; tahoma,verdana;" >
+		<table><tr>
+			<td><%=link_to image_tag(@graph_info['picture']),"http://www.facebook.com/#{@graph_info['link']}" %></td> 
+			<td>  <%= link_to "#{@graph_info['name']}","http://www.facebook.com/#{@graph_info['link']}",{:style=>'color:#1212DE;'} %><br>
+			     <%= link_to "#{@graph_info['website']}","http://#{@graph_info['website']}",{:style=>'color:#1212DE;'} %><br></td>
+			</tr>
+		</table>
+
+		</div>
+		<div id="like_button" 	style = "width:400px; font:12px tahoma,verdana;">
+		<div id="fb-root"></div>
+		<div class="fb-like" data-href="http://www.facebook.com/pages/Ziqqu/170880032923050" data-send="false" data-width="100" data-layout = "button_count" data-show-faces="false" data-font="verdana" ></div>
+                <div class="fb-send" data-href="http://www.facebook.com/pages/Ziqqu/170880032923050" data-font="verdana"></div>
+		<div class="fb-subscribe" data-href="http://www.facebook.com/pages/Ziqqu/170880032923050" data-show-faces="false" data-width="200"></div>
+		</div>
+		<br>
+	
+	 <div id="info" style = "width:400px; font:12px tahoma,verdana;">
+		 
+		<h4> Mission:</h4><%= @graph_info['mission'] %><br>
+		<h4> Description:</h4><%= @graph_info['description'] %><br>
+		<h4> About:</h4><%= @graph_info['about'] %><br>  
+	</div>
+			<h4>Ziqqu Wall </h4>
+			<!--facebook_wall  div starts  -->
+          <div id = "facebook_wall"  style = "width:400px; height:250px; border:1px solid;border-color:#7799ff;-moz-border-radius:15px; font:12px tahoma,verdana; overflow: auto;" >
+
+		<%@graph_info_feed.first(10).each do|graph_wall| %>
+		<table cellpadding="10" style= "margin-top:0px; " >
+			<% if graph_wall['message']%>
+				<tr><td valign= "top" ><table style= "margin-top:0px; position:relative;top:0px;"><tr>
+				<td valign = "top"><%= image_tag (@graph.get_picture(Integer(graph_wall['from']['id'])))%></td></tr>
+				</table></td>
+				<td><%# graph_wall['message'] %><br>
+					<%= graph_wall['name'] %><br>
+				 	<%=link_to "#{graph_wall['caption']}","http://#{graph_wall['caption']}",{:style=>'color:#1212DE;'} %><br> 						<%= graph_wall['description'] %><br>
+					<%=link_to "#{graph_wall['link']}",graph_wall['link'] ,{:style=>'color:#1212DE;'}%><br>
+					 Likes </tab>  comments<%= graph_wall['comments']['count']%> <br>
+				</td></tr>
+			<%else%>
+ 				<tr><td><table style= "margin-top:0px; position:relative;top:0px;"><tr>
+				<td valign = "top"><%= image_tag (@graph.get_picture(Integer(graph_wall['from']['id'])))%></td></tr>
+				</table></td>
+				<td><%= graph_wall['story']%> <br>
+				   likes  comments <%= graph_wall['comments']['count']%> <br></td>
+				</tr>
+			<%end%>
+		</table>
+		<%end%>
+	</div>
+		<!--facebook_wall  div ends  -->
+	<div id = "photos" style = "width:400px;font:12px tahoma,verdana;">
+	<h4> Ziqqu Photos</h4>
+		<%@graph_photos.first(2).each do|graph_photo| %>
+			<%= image_tag(graph_photo['picture'])%> 		
+		<%end%>
+ 	
+	</div>
+	<div id="likes" style = "width:400px; font:12px tahoma,verdana;">
+		<h4>Ziqqu Likes</h4><br>
+         	<%@graph_likes.first(10).each do |friend|%>
+    			  <%= image_tag (@graph.get_picture(friend['id']))%> 
+    		<%end%>
+  	</div> 
+       
+</div>
+
+
