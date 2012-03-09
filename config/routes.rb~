@@ -1,6 +1,6 @@
 SampleAppKoalo::Application.routes.draw do
   
-
+  match 'home/test'  => 'home#test'
   match 'home/callback'  => 'home#callback'
   get "auth/index"
 

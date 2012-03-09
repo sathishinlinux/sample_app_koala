@@ -18,30 +18,6 @@ class HomeController < ApplicationController
  
  
   
-  def callback
-         
-  	if params[:code]
-		session[:access_token] = '' 
-  		# acknowledge code and get access token from FB
-		  session[:access_token] = session[:oauth].get_access_token(params[:code])
-	end		
-
-		 # auth established, now do a graph call:
-		  
-		@api = Koala::Facebook::API.new(session[:access_token])
-	begin
-			#@graph_data = @api.get_object("/me/statuses", "fields"=>"message")
-			@graph_like = @api.put_post("100001548409455","feed", "This is My first Post")
-	rescue Exception=>ex
-			puts ex.message
-	end
-		
-#  redirect_to index
-               
-		
-	
-  end
-
   def test
 
 	@oauth = Koala::Facebook::OAuth.new(395715373788921, "8e63cfe50d07988ade86bc603da4b068","http://localhost:3000/")
