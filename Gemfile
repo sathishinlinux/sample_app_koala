@@ -22,6 +22,8 @@ end
 gem 'pg'
 gem 'jquery-rails'
 gem 'koala'
+gem 'oauth'
+gem 'twitter'
 gem "execjs"
 
 gem "therubyracer"

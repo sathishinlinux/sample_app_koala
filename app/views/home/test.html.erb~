@@ -1,48 +1,4 @@
-<!--<script type ="text/javascript">
-$(document).ready(function(){
-	//alert('Hello world!');
-	$('#facebook_wall').scroll();
 
-
-
-
-
-});
-
-</script>
-
-
-
-
-         <div id = "facebook_wall"  style = "width:500px; height:300px; font:12px tahoma,verdana; overflow: scroll;" >
-		<h4>Ziqqu Wall </h4>
-		<%@graph_info_feed.first(10).each do|graph_wall| %>
-		<table cellpadding="10" style= "margin-top:0px; " >
-			<% if graph_wall['message']%>
-				<tr><td ><table style= "margin-top:0px; position:relative;top:0px;"><tr><td><%= image_tag (@graph.get_picture(Integer(graph_wall['from']['id'])))%></td></tr></table></td>
-				<td><%# graph_wall['message'] %><br>
-				
-					<%= graph_wall['name'] %><br>
-				 	<%=link_to "#{graph_wall['caption']}","http://#{graph_wall['caption']}" %><br> 						<%= graph_wall['description'] %><br>
-					<%=link_to "#{graph_wall['link']}",graph_wall['link'] %><br><br><br>
-					 Likes </tab>  comments<%= graph_wall['comments']['count']%> <br>
-				</td></tr>
-
-
-			<%else%>
-				
-				<tr><td><table style= "margin-top:0px;"><tr><td><%= image_tag (@graph.get_picture(Integer(graph_wall['from']['id'])))%></td></tr></table></td>
-				<td><%= graph_wall['story']%> <br>
-					comments <%= graph_wall['comments']['count']%> <br></td>
-				</tr>
-			<%end%>
-		</table>
-		<%end%>
-	</div>
--->
-
-
-
-
+				<%=link_to image_tag(@client.profile_image_url),"#{@client.screen_name}",{:style=> 'color:#1212DE;':target => "blank"}%>
 
 

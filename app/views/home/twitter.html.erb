@@ -1,0 +1,15 @@
+Name :<%= @client.name%><br>
+Screen Name: <%= @client.screen_name %><br>
+Profile Picture :<%= image_tag(@client.profile_image_url)%><br>
+Description : <%= @client.description %><br>
+Location : <%= @client.location%><%= link_to "#{@client.url}","http://#{@client.url}" %><br>
+Following : <%= @client.friends_count%><br>
+Follower : <%= @client.followers_count%><br>
+Favourites :<%=@client.favourites_count%>
+
+<h1> Tweets </h1>
+
+<%@user_timeline.first(10).each do |tweet|%>
+<%=link_to image_tag(tweet.user['profile_image_url']),"https://twitter.com/#!/#{tweet.user['screen_name']}"%><%=link_to tweet.user['name'], "https://twitter.com/#!/#{tweet.user['screen_name']}"%>@<%= link_to tweet.user['screen_name'], "https://twitter.com/#!/#{tweet.user['screen_name']}"%> <%=Time.parse("#{tweet['created_at']}")%>
+<p> <%= tweet.text %> </p> <br>
+<%end%>

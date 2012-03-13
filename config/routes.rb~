@@ -1,11 +1,5 @@
 SampleAppKoalo::Application.routes.draw do
-  
-  match 'home/test'  => 'home#test'
-  match 'home/callback'  => 'home#callback'
-  get "auth/index"
-
-  get "auth/callback"
-
+   match 'home/test' => 'home#test'
   #get "home/index"
    root :to => 'home#index'
   # The priority is based upon order of creation:

@@ -24,11 +24,25 @@ $(document).ready(function(){
 
 
       });
+     
+   $('#twitter_info').dialog({
+      			autoOpen: false,
+				width : 460,
+				height : 500      
+
+
+      });
     $('#facebook_wall').scroll();
+        $('#twitter_wall').scroll();
     $('.facebook_button').click(function(){
 		$('#facebook_info').dialog('open');
 	
       });
+    $('.twitter_button').click(function(){
+
+                  $('#twitter_info').dialog('open');
+  
+     });
 
 });
 
@@ -50,7 +64,7 @@ $(document).ready(function(){
 		<div id= "picture" style = "width:400px; height 50px; font:8px; tahoma,verdana;" >
 		<table><tr>
 			<td><%=link_to image_tag(@graph_info['picture']),"http://www.facebook.com/#{@graph_info['link']}" %></td> 
-			<td>  <%= link_to "#{@graph_info['name']}","http://www.facebook.com/#{@graph_info['link']}",{:style=>'color:#1212DE;'} %><br>
+			<td>  <%= link_to "#{@graph_info['name']}","http://www.facebook.com/#{@graph_info['link']}",{:style=>'color:#1212DE;' ,:target =>'blank'} %><br>
 			     <%= link_to "#{@graph_info['website']}","http://#{@graph_info['website']}",{:style=>'color:#1212DE;'} %><br></td>
 			</tr>
 		</table>
@@ -108,10 +122,47 @@ $(document).ready(function(){
 	<div id="likes" style = "width:400px; font:12px tahoma,verdana;">
 		<h4>Ziqqu Likes</h4><br>
          	<%@graph_likes.first(10).each do |friend|%>
-    			  <%= image_tag (@graph.get_picture(friend['id']))%> 
+    			  <%=link_to image_tag(@graph.get_picture(friend['id'])),"http://www.facebook.com/#{friend['id']}",{:style=> 'color:#1212DE;',:target => "blank"}%> 
     		<%end%>
   	</div> 
        
 </div>
 
+  	<div title = "ZiqquMusic"  id = "twitter_info" style = "width:400px; height 50px; font:8px; tahoma,verdana;" >
 
+		<table>
+		<tr>
+			<td valign= "top">
+				<%=link_to image_tag(@client.profile_image_url),"#{@client.screen_name}",{:style=> 'color:#1212DE;',:target => "blank"}%></td>
+			<td><%=link_to @client.name,"https://twitter.com/#!/#{@client.screen_name}",{:style=> 'color:#1212DE;',:target => "blank"}%><br>
+	                    <%=link_to "@#{@client.screen_name}","https://twitter.com/#!/#{@client.screen_name}",{:style=> 'color:#1212DE;',:target => "blank"}%><br>
+			    <%= @client.location%>,<%= link_to "#{@client.url}","#{@client.url}",{:style=> 'color:#1212DE;',:target => "blank"} %><br>
+				<a href="https://twitter.com/ziqqumusic" class="twitter-follow-button" data-show-count="false" data-lang="en" data-size="medium"data-show-screen-name = "false">Follow @twitter</a>
+
+			       <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+				</script>
+	
+		        </td>
+		</tr>
+		</table>
+		<div id="twitter_description" style = "width:400px; height 50px; font:8px; tahoma,verdana;"  >
+	    	<%="Following:#{@client.friends_count}"%>|Follower:<%= @client.followers_count%>|Favourites:<%=@client.favourites_count%><br>
+		<h4>Description:</h4>
+	 	 <%= @client.description %><br>
+		</div>
+		<h4> Ziqqu Tweets:</h4>
+		<div id = "twitter_wall"  style = "width:400px; height:250px; border:1px solid;border-color:#7799ff;-moz-border-radius:15px; font:12px tahoma,verdana; overflow: auto;" >
+		<table cellpadding="10" style= "margin-top:0px; " >
+		<%@user_timeline.first(10).each do |tweet|%>
+		<tr><td valign= "top" width = "100" >
+			<%=link_to image_tag(tweet.user['profile_image_url']),"https://twitter.com/#!/#{tweet.user['screen_name']}",{:style=> 'color:#1212DE;',:target => "blank"}%></td>
+		<td><%=link_to tweet.user['name'], "https://twitter.com/#!/#{tweet.user['screen_name']}",{:style=> 'color:#1212DE;',:target => "blank"}%>
+		@<%= link_to tweet.user['screen_name'], "https://twitter.com/#!/#{tweet.user['screen_name']}",{:style=> 'color:#1212DE;',:target => "blank"}%>
+         	 <%=Time.parse("#{tweet['created_at']}")%><br><br>
+		<%= tweet.text %><br>
+		</td></tr>
+		<%end%>	
+		</table>
+		</div>
+
+	</div>
