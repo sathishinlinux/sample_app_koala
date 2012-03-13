@@ -1,4 +1,4 @@
-<title>Ziqqu - The social music experiment</title>
+
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css">
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/jquery-ui.min.js"></script>
@@ -155,8 +155,7 @@ $(document).ready(function(){
 		<td>Follower:<%= @client.followers_count%></td>
 		<td>Favourites:<%=@client.favourites_count%></td>
 		</tr></table>
-		<h5 style =  "color:#3096a2;">Description:</h5>
-	 	 <div style="font-family: tahoma,verdana; font-size:12px;"><em><%= @client.description %></em></div>
+		<div style="font-family: tahoma,verdana; font-size:12px;"><em><%= @client.description %></em></div>
 		</div>
 		<h5 style =  "color:#3096a2;"> Ziqqu Tweets:</h5>
 		<div id = "twitter_wall"  style = "width:400px; height:250px; border:1px solid;border-color:#59acb4;-moz-border-radius:15px; font:12px tahoma,verdana; overflow: auto;" >
